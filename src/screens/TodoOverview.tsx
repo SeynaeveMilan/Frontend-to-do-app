@@ -1,4 +1,4 @@
-import { Check, ChevronDown, Plus, Trash } from 'lucide-react'
+import { Check, ChevronDown, Plus, Settings, Trash } from 'lucide-react'
 import { AppFooter } from '../components/AppFooter'
 import { AppHeader } from '../components/AppHeader'
 import '../assets/tailwind.css'
@@ -6,6 +6,7 @@ import '../assets/tailwind.css'
 import React, { useEffect, useState } from 'react'
 import { Todo } from '../models/Todo'
 import { uid } from 'uid'
+import { Link } from 'react-router-dom'
 
 export const TodoOverview = () => {
   const [todos, setTodos] = useState<Todo[]>([])
@@ -36,8 +37,10 @@ export const TodoOverview = () => {
     <div>
       <div className=" flex flex-col min-h-screen mx-auto max-w-lg px-6">
         {/* Header: amount of todos & welcome message*/}
-        <AppHeader todoCount={todos.length} />
-
+        <AppHeader todoCount={todos.length} title='Hello, Milan' />
+        <Link to="/settings">
+          <Settings />
+        </Link>
         <div className="flex-1">
           <form className="flex gap-3 mx-2" onSubmit={addNewTodo}>
             <div className="w-full mb-8">
