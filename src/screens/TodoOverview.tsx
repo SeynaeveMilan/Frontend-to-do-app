@@ -9,13 +9,20 @@ import { uid } from 'uid'
 import { Link } from 'react-router-dom'
 
 export const TodoOverview = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
+  // Keep todos in localstorage
+
+  const [todos, setTodos] = useState<Todo[]>(
+    localStorage.todos ? JSON.parse(localStorage.todos) : [],
+  )
 
   const [newTodo, setNewTodo] = useState<Todo>({
     task: '',
     category: 'choose',
     isCompleted: false,
   })
+  useEffect(() => {
+    localStorage.todos = JSON.stringify(todos)
+  }, [todos])
   //wat commentaar negeer dit
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -75,8 +82,8 @@ export const TodoOverview = () => {
                     Choose a category
                   </option>
                   <option value="work">Work</option>
-                  <option value="work">Hobby</option>
-                  <option value="work">School</option>
+                  <option value="hobby">Hobby</option>
+                  <option value="school">School</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/4 h-4 w-4 text-gray-400 pointer-events-none" />
               </div>
