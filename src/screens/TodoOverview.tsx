@@ -9,14 +9,22 @@ import { uid } from 'uid'
 import { Link } from 'react-router-dom'
 
 export const TodoOverview = () => {
-  // DONE: Clear input after adding a todo
-  // TODO: remove items when checked delayed by 4 seconds
-  // TODO: show amount of todos by 'completed'
-  // TODO: option to delete a todo
+  
   // TODO: show error message when input is empty
   // TODO: make the input field required (input validation  - visible)
   //
   // TODO: release better version (v1.1.0)
+
+  const [isValid, setIsValid] = useState({
+    task: {
+      dirty: false, // If the user has interacted with the input
+      valid: false,
+    },
+    category: {
+      dirty: false,
+      valid: false,
+    },
+  })
 
   const [todos, setTodos] = useState<Todo[]>(
     localStorage.todos ? JSON.parse(localStorage.todos) : [],
@@ -54,11 +62,11 @@ export const TodoOverview = () => {
     setTodos(todos.filter(todo => todo.id !== id))
   }
 
-  // const removeWithDelay = (id: string) => {
-  //   setTimeout(() => {
-  //     setTodos(todos.filter(todo => todo.id !== id))
-  //   }, 4000)
-  // }
+  const removeWithDelay = (id: string) => {
+    setTimeout(() => {
+      setTodos(todos.filter(todo => todo.id !== id))
+    }, 4000)
+  }
 
   useEffect(() => {
     console.log({ newTodo })
@@ -67,7 +75,10 @@ export const TodoOverview = () => {
     <div>
       <div className=" flex flex-col min-h-screen mx-auto max-w-lg px-6">
         {/* Header: amount of todos & welcome message*/}
-        <AppHeader todoCount={todos.length} title="Hello, Milan" />
+        <AppHeader
+          todoCount={todos.filter((t: Todo) => !t.isCompleted).length}
+          title="Hello, Milan"
+        />
         <Link to="/settings" className=" my-4">
           <Settings />
         </Link>
@@ -97,7 +108,7 @@ export const TodoOverview = () => {
                     setNewTodo({
                       ...newTodo,
                       category: event.currentTarget.value,
-                    })
+                    }) 
                   }}
                 >
                   <option disabled value={'choose'}>
@@ -137,6 +148,9 @@ export const TodoOverview = () => {
                       : t,
                   )
                   setTodos(updatedTodos)
+                  if (todo.id) {
+                    removeWithDelay(todo.id)
+                  }
                 }}
                 checked={todo.isCompleted} // Reflect the completed status
               />
