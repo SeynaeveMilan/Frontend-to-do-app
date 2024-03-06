@@ -43,12 +43,12 @@ const TodoInput = ({
 
   return (
     <form
-      className="flex gap-6 bg-white shadow py-3 px-6 rounded-2xl mb-6"
+      className="flex gap-6 bg-white shadow py-3 px-6 rounded-2xl mb-6   dark:border-neutral-800 dark:bg-neutral-800"
       onSubmit={addNewTodo}
     >
       <div className="flex items-center">
         <button
-          className="h-auto rounded-full p-2 border border-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent hover:text-white hover:bg-blue-500 disabled:opacity-10 disabled:cursor-not-allowed"
+          className="h-auto rounded-full p-2 border border-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent hover:text-white hover:bg-blue-500 disabled:opacity-10 disabled:cursor-not-allowed "
           disabled={!isValid.task.valid || !isValid.category.valid}
         >
           <Plus className="stroke-current" />
@@ -62,7 +62,7 @@ const TodoInput = ({
             !isValid.task.valid && isValid.task.dirty
               ? 'border-red-500 placeholder:text-red-300 focus:ring-red-700'
               : ''
-          }`}
+          } dark:bg-neutral-800  dark:border-neutral-600`}
           placeholder="Add a new todo..."
           type="text"
           name="new-todo"
@@ -94,7 +94,7 @@ const TodoInput = ({
               !isValid.category.valid && isValid.category.dirty
                 ? 'border-red-500 placeholder:text-red-500 text-red-500 focus:ring-red-700'
                 : ''
-            }`}
+            } dark:bg-neutral-800 dark:border-neutral-600`}
             name="category"
             id="category"
             value={newTodo.category}

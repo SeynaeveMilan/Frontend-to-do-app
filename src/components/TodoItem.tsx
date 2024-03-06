@@ -60,9 +60,9 @@ const TodoItem = ({
         >
           {todo.isCompleted && <Check className="h-3 w-3 text-white" />}
         </span>
-        <span className="ml-3">{todo.task}</span>
+        <span className="ml-3 dark:text-neutral-200">{todo.task}</span>
         <div className="ml-3 flex">
-          <p className="text-sm">{todo.category}</p>
+          <p className="text-sm dark:text-neutral-200">{todo.category}</p>
         </div>
       </label>
       <button className="ml-auto" onClick={() => remove(todo.id!)}>
