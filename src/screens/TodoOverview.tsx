@@ -9,7 +9,14 @@ import { uid } from 'uid'
 import { Link } from 'react-router-dom'
 
 export const TodoOverview = () => {
-  // Keep todos in localstorage
+  // DONE: Clear input after adding a todo
+  // TODO: remove items when checked delayed by 4 seconds
+  // TODO: show amount of todos by 'completed'
+  // TODO: option to delete a todo
+  // TODO: show error message when input is empty
+  // TODO: make the input field required (input validation  - visible)
+  //
+  // TODO: release better version (v1.1.0)
 
   const [todos, setTodos] = useState<Todo[]>(
     localStorage.todos ? JSON.parse(localStorage.todos) : [],
@@ -36,7 +43,22 @@ export const TodoOverview = () => {
       return currentNewTodo
     }) //Voeg een id toe aan de nieuwe todo
     setTodos([...todos, newTodo]) //Combineer de huidige todos met de nieuwe todo
+    setNewTodo({
+      task: '',
+      category: 'choose',
+      isCompleted: false,
+    }) //Reset de input velden
   }
+
+  const removeTodo = (id: string) => {
+    setTodos(todos.filter(todo => todo.id !== id))
+  }
+
+  // const removeWithDelay = (id: string) => {
+  //   setTimeout(() => {
+  //     setTodos(todos.filter(todo => todo.id !== id))
+  //   }, 4000)
+  // }
 
   useEffect(() => {
     console.log({ newTodo })
@@ -46,7 +68,7 @@ export const TodoOverview = () => {
       <div className=" flex flex-col min-h-screen mx-auto max-w-lg px-6">
         {/* Header: amount of todos & welcome message*/}
         <AppHeader todoCount={todos.length} title="Hello, Milan" />
-        <Link to="/settings">
+        <Link to="/settings" className=" my-4">
           <Settings />
         </Link>
         <div className="flex-1">
@@ -96,9 +118,12 @@ export const TodoOverview = () => {
             </div>
           </form>
           {todos.map((todo: Todo) => (
+            // DONE: fade todo when checked
             <div
               key={todo.id}
-              className="border bg-neutral-800 mt-4 rounded-2xl p-4 border-neutral-500 flex items-center"
+              className={`border bg-neutral-800 mt-4 rounded-2xl p-4 border-neutral-500 flex items-center ${
+                todo.isCompleted ? 'opacity-30' : 'placeholder-opacity-100'
+              }`}
             >
               <input
                 id={todo.id}
@@ -135,7 +160,9 @@ export const TodoOverview = () => {
                 </div>
               </label>
               {/* Trash icon placed all the way to the right */}
-              <Trash className="ml-auto" />
+              <button className="ml-auto" onClick={() => removeTodo(todo.id!)}>
+                <Trash />
+              </button>
             </div>
           ))}
         </div>
