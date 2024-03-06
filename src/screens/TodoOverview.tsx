@@ -16,6 +16,7 @@ export const TodoOverview = () => {
     category: 'choose',
     isCompleted: false,
   })
+  //wat commentaar negeer dit
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault() // Stop posting naar dezelfde pagina
@@ -37,7 +38,7 @@ export const TodoOverview = () => {
     <div>
       <div className=" flex flex-col min-h-screen mx-auto max-w-lg px-6">
         {/* Header: amount of todos & welcome message*/}
-        <AppHeader todoCount={todos.length} title='Hello, Milan' />
+        <AppHeader todoCount={todos.length} title="Hello, Milan" />
         <Link to="/settings">
           <Settings />
         </Link>
