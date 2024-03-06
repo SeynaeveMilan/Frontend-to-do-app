@@ -9,7 +9,6 @@ import { uid } from 'uid'
 import { Link } from 'react-router-dom'
 
 export const TodoOverview = () => {
-  
   // TODO: show error message when input is empty
   // TODO: make the input field required (input validation  - visible)
   //
@@ -94,7 +93,17 @@ export const TodoOverview = () => {
                   id="new-todo"
                   value={newTodo.task}
                   onInput={(event: React.FormEvent<HTMLInputElement>) => {
-                    setNewTodo({ ...newTodo, task: event.currentTarget.value })
+                    setIsValid({
+                      ...isValid,
+                      task: {
+                        dirty: true,
+                        valid: event.currentTarget.value.length > 0,
+                      },
+                    })
+                    setNewTodo({
+                      ...newTodo,
+                      task: event.currentTarget.value,
+                    })
                   }}
                 ></input>
               </div>
@@ -105,10 +114,17 @@ export const TodoOverview = () => {
                   id="category"
                   value={newTodo.category}
                   onChange={(event: React.FormEvent<HTMLSelectElement>) => {
+                    setIsValid({
+                      ...isValid,
+                      task: {
+                        dirty: true,
+                        valid: event.currentTarget.value !== 'choose',
+                      },
+                    })
                     setNewTodo({
                       ...newTodo,
                       category: event.currentTarget.value,
-                    }) 
+                    })
                   }}
                 >
                   <option disabled value={'choose'}>
@@ -122,7 +138,10 @@ export const TodoOverview = () => {
               </div>
             </div>
             <div className="items-center">
-              <button className=" rounded-full bg-orange-600 p-3 translate-y-6">
+              <button
+                className=" rounded-full bg-orange-600 p-3 translate-y-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!isValid.task.valid || !isValid.category.valid}
+              >
                 <Plus className=" text-neutral-800" />
                 <span className=" sr-only">Add todo</span>
               </button>
